@@ -3,17 +3,15 @@ package prueba_3;
 
 
 public  abstract class  Empleado  implements Cloneable {
-    // atributos
- private String codigo ;
+  // atributos
+    private String codigo;
     private String nombre;
-    private double SalarioBase;
+    private double salarioBase;
 
-  
-
-    public Empleado (String codigo , String nombre , double SalarioBase) {
-        this.codigo = codigo;
-        this.nombre = nombre ;
-        setSalarioBase(SalarioBase);
+    public Empleado(String codigo, String nombre, double salarioBase) {
+        setCodigo(codigo);
+        setNombre(nombre);
+        setSalarioBase(salarioBase);
     }
 
     public String getCodigo() {
@@ -21,7 +19,9 @@ public  abstract class  Empleado  implements Cloneable {
     }
 
     public void setCodigo(String codigo) {
-        if (codigo == null || codigo.trim().isEmpty())
+        if (codigo == null || codigo.isEmpty()) {
+            throw new IllegalArgumentException("El codigo no puede estar vacio");
+        }
         this.codigo = codigo;
     }
 
@@ -30,43 +30,45 @@ public  abstract class  Empleado  implements Cloneable {
     }
 
     public void setNombre(String nombre) {
-         if (codigo == null || codigo.trim().isEmpty())
+        if (nombre == null || nombre.isEmpty()) {
+            throw new IllegalArgumentException("El nombre no puede estar vacio");
+        }
         this.nombre = nombre;
     }
 
     public double getSalarioBase() {
-        return SalarioBase;
+        return salarioBase;
     }
 
-    public void setSalarioBase(double SalarioBase) {
-          if (SalarioBase < 0) {
-            throw new IllegalArgumentException("El Salario no puede ser negativo");
+    public void setSalarioBase(double salarioBase) {
+        if (salarioBase < 0) {
+            throw new IllegalArgumentException("El salario no puede ser negativo");
         }
-        this.SalarioBase = SalarioBase;
-       
+        this.salarioBase = salarioBase;
     }
-    // metodo abstrato
+
+    // metodo abstracto
     public abstract double calcularSalario();
-  
-    public String MostrarInformacion() {
-        return "Codigo: " + codigo + " | nombre: " + nombre + " | Salario: " + calcularSalario();
+
+    public String mostrarInformacion() {
+        return "Codigo: " + codigo + " | Nombre: " + nombre + " | Salario: " + calcularSalario();
     }
-    // Básico: < 10000 | Estándar: 10000 a 29999 | Superior: >= 30000.
+
+    // Basico: < 10000 | Estandar: 10000 a 29999 | Superior: >= 30000
     public String obtenerCategoria() {
-        double p = calcularSalario();
-        if (p < 10000) return "Basico";
-        if (p < 30000) return "Estandar";
+        double s = calcularSalario();
+        if (s < 10000) return "Basico";
+        if (s < 30000) return "Estandar";
         return "Superior";
     }
 
     @Override
-    public Empleado clone() {
+    public Empleado clone() throws CloneNotSupportedException {
         try {
             return (Empleado) super.clone();
         } catch (CloneNotSupportedException e) {
-            throw new AssertionError("No se pudo clonar", e);
+            System.out.println("No se pudo clonar");
+            return null;
         }
     }
 }
-    
-
